@@ -44,7 +44,7 @@ public class Card {
 
 	public int getRank() {
 		if(rank==1)
-			return 11;
+			return 1;
 		else if(rank==11||rank==12||rank==13)
 			return 10;
 		else

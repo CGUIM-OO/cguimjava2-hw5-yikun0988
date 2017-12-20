@@ -66,6 +66,10 @@ public class Table {
 		for (int i = 0; i < Players.length; i++) {
 			if (Players[i].getTotalValue() <= 21) {
 				boolean hit = false;
+				System.out.print(Players[i].getName() + "'s Cards now:");
+				for (Card c : player_Cards.get(i)) {
+					c.printCard();
+				} 
 				do {
 					hit = Players[i].hit_me(this);
 					if (hit) {
@@ -76,10 +80,6 @@ public class Table {
 							c.printCard();
 						} 
 					} else {
-						System.out.print(Players[i].getName() + "'s Cards now:");
-						for (Card c : player_Cards.get(i)) {
-							c.printCard();
-						} 
 						System.out.println("Pass hit!");
 					} 
 				} while (hit);
@@ -89,8 +89,8 @@ public class Table {
 	}
 
 	private void ask_dealer_about_hits() {
-		boolean hit = false;
-		if (dealer.getTotalValue() <= 21) {
+		Boolean hit = dealer.hit_me(this);
+		if (hit) {
 			do {
 				hit = dealer.hit_me(this); // this
 				if (hit) {
