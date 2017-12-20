@@ -55,11 +55,9 @@ public class Table {
 			player_Cards.get(i).add(deck.getOneCard(true));
 			Players[i].setOneRoundCard(player_Cards.get(i));
 		}
-
 		dealer_Cards.add(deck.getOneCard(false));
 		dealer_Cards.add(deck.getOneCard(true));
 		dealer.setOneRoundCard(dealer_Cards);
-
 		System.out.print("Dealer's face up card is: ");
 		get_face_up_card_of_dealer().printCard();
 	}
@@ -69,110 +67,76 @@ public class Table {
 			if (Players[i].getTotalValue() <= 21) {
 				boolean hit = false;
 				do {
-					hit = Players[i].hit_me(this); // this
+					hit = Players[i].hit_me(this);
 					if (hit) {
 						player_Cards.get(i).add(deck.getOneCard(true));
 						Players[i].setOneRoundCard(player_Cards.get(i));
-						System.out.print("Hit! ");
-						System.out.println(Players[i].getName() + "'s Cards now:");
+						System.out.print("Hit! "+Players[i].getName() + "'s Cards now:");
 						for (Card c : player_Cards.get(i)) {
 							c.printCard();
 						} 
 					} else {
-						System.out.println(Players[i].getName() + ", Pass hit!");
-						System.out.println(Players[i].getName() + ", Final Card:");
+						System.out.print(Players[i].getName() + "'s Cards now:");
 						for (Card c : player_Cards.get(i)) {
 							c.printCard();
-						}
+						} 
+						System.out.println("Pass hit!");
 					} 
 				} while (hit);
-			} else {
-				System.out.println(Players[i].getName() + ", is Bomb!");
-				System.out.println(Players[i].getName() + ", Final Card:");
-				for (Card c : player_Cards.get(i)) {
-					c.printCard();
-				}
-				System.out.println();
 			}
+			System.out.println(Players[i].getName() + "'s hit is over!");
 		}
 	}
 
 	private void ask_dealer_about_hits() {
 		boolean hit = false;
 		if (dealer.getTotalValue() <= 21) {
-			
 			do {
 				hit = dealer.hit_me(this); // this
 				if (hit) {
 					dealer_Cards.add(deck.getOneCard(true));
 					dealer.setOneRoundCard(dealer_Cards);
-					System.out.print("Hit! ");
-					System.out.println("Dealer's Cards now:");
-					for (Card c : dealer_Cards) {
-						c.printCard();
-					}
 				} 
-				else {
-					System.out.println("Dealer Pass hit!");
-					System.out.println("Dealer's Final Card:");
-					for (Card c : dealer_Cards) {
-						c.printCard();
-					}
-					System.out.println();
-				} 
-			} while (hit);
-		} else {
-			System.out.println("Dealer isBomb!");
-			System.out.println("Dealer's Final Card:");
-			for (Card c : dealer_Cards) {
-				c.printCard();
-			}
-			System.out.println();
+			} while (hit);		
 		} 
 		System.out.println("Dealer's hit is over!");
 	}
 
 	private void calculate_chips() {
-		System.out.print("Dealer's card value is " + dealer.getTotalValue() + " , Cards:\n");
+		System.out.print("Dealer's card value is " + dealer.getTotalValue() + " , Cards:");
 		dealer.printAllCard();
 		
 		for (int i = 0; i < Players.length; i++) {
-			System.out
-					.print(Players[i].getName() + "'s card value is " + Players[i].getTotalValue() + ", Cards:\n");
+			System.out.print(Players[i].getName() + ",Cards:");
 			Players[i].printAllCard();
 			if (dealer.getTotalValue() > 21) {
-				System.out.println("Dealer is Bomb!");
 				if (Players[i].getTotalValue() <= 21) {
 					Players[i].increaseChips(pos_betArray[i]);
-					System.out.println(Players[i].getName() + " Get " + pos_betArray[i] + " Chips, the Chips now is: "
-							+ Players[i].getCurrentChips() + "\n");
+					System.out.println(Players[i].getName() + "'s card value is " + Players[i].getTotalValue() + ", Get " + pos_betArray[i] + " Chips, the Chips now is:"
+							+ Players[i].getCurrentChips());
 				} 
 				else if (Players[i].getTotalValue() > 21) {
-					System.out.println(Players[i].getName() + " is Bomb!");
-					System.out.println(
-							",chips have no change! The Chips now is: " + Players[i].getCurrentChips() + "\n");
+					System.out.println(Players[i].getName() + "'s card value is " + Players[i].getTotalValue() + ",chips have no change! The Chips now is: " + Players[i].getCurrentChips());
 				}
 			} else if (dealer.getTotalValue() <= 21) {
 				if (Players[i].getTotalValue() <= 21) {
 					if (Players[i].getTotalValue() > dealer.getTotalValue()) {
 						Players[i].increaseChips(pos_betArray[i]);
-						System.out.println(Players[i].getName() + " Get " + pos_betArray[i]
-								+ " Chips, the Chips now is: " + Players[i].getCurrentChips() + "\n");
+						System.out.println(Players[i].getName() + "'s card value is " + Players[i].getTotalValue() + ", Get " + pos_betArray[i]
+								+ " Chips, the Chips now is: " + Players[i].getCurrentChips());
 					} 
 					else if (Players[i].getTotalValue() < dealer.getTotalValue()) {
 						Players[i].increaseChips(-pos_betArray[i]);
-						System.out.println(Players[i].getName() + " Loss " + pos_betArray[i]
-								+ " Chips, the Chips now is: " + Players[i].getCurrentChips() + "\n");
+						System.out.println(Players[i].getName() + "'s card value is " + Players[i].getTotalValue() + ", Loss " + pos_betArray[i]
+								+ " Chips, the Chips now is: " + Players[i].getCurrentChips());
 					} 
 					else if (Players[i].getTotalValue() == dealer.getTotalValue()) {
-						System.out.println(
-								",chips have no change! The Chips now is: " + Players[i].getCurrentChips() + "\n");
+						System.out.println(Players[i].getName() + "'s card value is " + Players[i].getTotalValue() + ",chips have no change! The Chips now is: " + Players[i].getCurrentChips());
 					} 
 				} else if (Players[i].getTotalValue() > 21) {
-					System.out.println(Players[i].getName() + " is Bomb!");
 					Players[i].increaseChips(-pos_betArray[i]);
-					System.out.println(Players[i].getName() + " Loss " + pos_betArray[i]
-							+ " Chips, the Chips now is: " + Players[i].getCurrentChips() + "\n");
+					System.out.println(Players[i].getName() + "'s card value is " + Players[i].getTotalValue() + ", Loss " + pos_betArray[i]
+							+ " Chips, the Chips now is: " + Players[i].getCurrentChips());
 				} 
 			}
 		}
